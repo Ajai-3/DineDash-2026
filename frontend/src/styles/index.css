@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  /* 
+     Adding a completely new color family 'brand' 
+     This creates bg-brand-light, text-brand-dark, etc.
+  */
+  --color-brand-light: #f4f4f4;
+  --color-brand-main: #3b82f6;
+  --color-brand-dark: #1e3a8a;
+
+  /* 
+     Adding a specific standalone color 
+     This creates bg-accent or text-accent
+  */
+  --color-accent: #ff5733;
+}
