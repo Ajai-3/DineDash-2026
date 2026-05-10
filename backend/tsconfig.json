@@ -1,14 +1,29 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "Bundler",
-
-    "rootDir": "./src",
-    "outDir": "./dist",
-
+    "module": "nodenext",
+    "outDir": "dist",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@types/*": ["@types/*"]
+    },
+    "strictPropertyInitialization": false,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src", "@types", "scripts"],
+  "exclude": ["node_modules", "dist"],
+  "ts-node": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }
