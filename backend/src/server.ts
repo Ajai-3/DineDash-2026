@@ -1,12 +1,11 @@
 import app from './app';
 import http from 'http';
+import { env } from './infrastructure/config/env';
 
-const port = 6000;
+const port = env.port;
 
 const server = http.createServer(app);
 
-server.listen(() => {
-    console.log("server running")
-})
-
-
+server.listen(port, () => {
+  console.log(`server running on port ${port}`);
+});
