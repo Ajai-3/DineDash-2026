@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Skeleton, Box, Typography, Button, Paper } from '@mui/material';
+import { Grid, Skeleton, Typography, Button, Paper } from '@mui/material';
 import { RestaurantCard } from './RestaurantCard';
 import type { Restaurant } from '../types/restaurant';
 
