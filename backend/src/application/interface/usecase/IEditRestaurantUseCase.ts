@@ -1,6 +1,6 @@
-import { Restaurant } from "src/types/Restaurant";
-import { RestaurantDto } from "../dto/RestaurantDto";
+import { Restaurant } from "../../../types/Restaurant";
+import { UpdateRestaurantDto } from "../dto/RestaurantDto";
 
 export interface IEditRestaurantUseCase {
-    execute(dto: RestaurantDto): Promise<Restaurant>
+  execute(dto: UpdateRestaurantDto): Promise<Restaurant>;
 }

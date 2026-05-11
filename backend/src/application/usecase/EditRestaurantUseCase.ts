@@ -1,26 +1,26 @@
 import { inject, injectable } from "inversify";
-import { Restaurant } from "src/types/Restaurant";
-import { TYPES } from "src/infrastructure/inversify/types";
-import { RestaurantDto } from "../interface/dto/RestaurantDto";
-import { IRestaurantRepository } from "src/core/repositories/IRestaurantRepository";
+import { Restaurant } from "../../types/Restaurant";
+import { TYPES } from "../../infrastructure/inversify/types";
+import { UpdateRestaurantDto } from "../interface/dto/RestaurantDto";
+import { IRestaurantRepository } from "../../core/repositories/IRestaurantRepository";
 import { IEditRestaurantUseCase } from "../interface/usecase/IEditRestaurantUseCase";
 import { NotFoundError } from "../../core/errors/NotFoundError";
 import { MESSAGES } from "../../shared/constants/messages";
 
 @injectable()
 export class EditRestaurantUseCase implements IEditRestaurantUseCase {
-   constructor(@inject(TYPES.IRestaurantRepository) private readonly _restornatRepo: IRestaurantRepository) {}
+   constructor(@inject(TYPES.IRestaurantRepository) private readonly _restaurantRepo: IRestaurantRepository) {}
 
-   async execute(dto: RestaurantDto): Promise<Restaurant> {
+   async execute(dto: UpdateRestaurantDto): Promise<Restaurant> {
        
-    let restaurant = await this._restornatRepo.findById(dto.id) as unknown as Restaurant;
+    const existingRestaurant = await this._restaurantRepo.findById(dto.id);
 
-    if (!restaurant) {
+    if (!existingRestaurant) {
         throw new NotFoundError(MESSAGES.RESTAURANT.NOT_FOUND);
     }
 
-    restaurant = await this._restornatRepo.update(dto) as unknown as Restaurant;
+    const updatedRestaurant = await this._restaurantRepo.update(dto) as unknown as Restaurant;
 
-    return restaurant;
+    return updatedRestaurant;
    }
 }

@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { prisma } from '../config/prisma';
+import { prisma } from '../database/prisma';
 import { BaseRepositoryImp } from './BaseRepositoryImp';
 import { Restaurant } from '../../core/entities/Restaurant';
 import { IRestaurantRepository } from '../../core/repositories/IRestaurantRepository';

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Restaurant } from '../../types/Restaurant';
 import { TYPES } from '../../infrastructure/inversify/types';
-import { RestaurantDto } from '../interface/dto/RestaurantDto';
+import { CreateRestaurantDto } from '../interface/dto/RestaurantDto';
 import { IRestaurantRepository } from '../../core/repositories/IRestaurantRepository';
 import { ICreateRestaurantUseCase } from '../interface/usecase/ICreateRestaurantUseCase';
 
@@ -12,15 +12,13 @@ export class CreateRestaurantUseCase implements ICreateRestaurantUseCase {
     private readonly _restaurantRepo: IRestaurantRepository,
   ) {}
 
-  async execute(dto: RestaurantDto): Promise<Restaurant> {
-
-
+  async execute(dto: CreateRestaurantDto): Promise<Restaurant> {
     const restaurant = await this._restaurantRepo.create({
       name: dto.name,
       contact: dto.contact,
       address: dto.address,
     })
 
-    return restaurant;
+    return restaurant as unknown as Restaurant;
   }
 }

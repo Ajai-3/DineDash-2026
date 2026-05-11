@@ -6,7 +6,12 @@ import { PaginatedResponse } from '../../types/PaginatedResponse';
 
 export interface IPrismaDelegate<T> {
   findUnique(args: { where: { id: string } }): Promise<T | null>;
-  findMany(args?: { skip?: number; take?: number; where?: Partial<T> }): Promise<T[]>;
+  findMany(args?: { 
+    skip?: number; 
+    take?: number; 
+    where?: Partial<T>;
+    orderBy?: any;
+  }): Promise<T[]>;
   count(args?: { where?: Partial<T> }): Promise<number>;
   create(args: { data: Omit<T, 'id' | 'createdAt' | 'updatedAt'> }): Promise<T>;
   delete(args: { where: { id: string } }): Promise<T>;
@@ -23,7 +28,14 @@ export abstract class BaseRepositoryImp<T extends { id: string }> implements IBa
   }
 
   async findAll(skip?: number, take?: number): Promise<PaginatedResponse<T>> {
-    const data = await this.model.findMany({ skip, take });
+    const safeSkip = skip !== undefined && !isNaN(skip) ? skip : 0;
+    const safeTake = take !== undefined && !isNaN(take) ? take : 4;
+    
+    const data = await this.model.findMany({ 
+      skip: safeSkip, 
+      take: safeTake, 
+      orderBy: { createdAt: 'desc' } 
+    });
     const total = await this.model.count();
     return { data, total };
   }

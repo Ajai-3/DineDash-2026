@@ -1,7 +1,6 @@
-import { Restaurant } from "src/core/entities/Restaurant";
-
-import { PaginatedResponse } from "src/types/PaginatedResponse";
+import { Restaurant } from "../../../core/entities/Restaurant";
+import { PaginatedResponse } from "../../../types/PaginatedResponse";
 
 export interface IGetAllRestaurantUseCase {
-    execute(skip?: number, take?: number): Promise<PaginatedResponse<Restaurant>>;
+  execute(page: number, limit: number): Promise<PaginatedResponse<Restaurant>>;
 }

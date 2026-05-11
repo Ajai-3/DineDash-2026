@@ -1,10 +1,19 @@
+import cors from 'cors';
 import express from 'express';
+import { env } from './infrastructure/config/env';
 
+import { ROUTES } from './shared/constants/routes';
 import restaurantRoutes from './presentation/routes/restaurant.routes'
 import { errorHandler } from './presentation/middlewares/ErrorHandler';
-import { ROUTES } from './shared/constants/routes';
 
 const app = express()
+
+app.use(cors({
+  origin: env.frontend_url,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 
 app.use(express.json());

@@ -1,6 +1,6 @@
-import { RestaurantDto } from '../dto/RestaurantDto';
 import { Restaurant } from '../../../types/Restaurant';
+import { CreateRestaurantDto } from '../dto/RestaurantDto';
 
 export interface ICreateRestaurantUseCase {
-  execute(dto: RestaurantDto): Promise<Restaurant>;
+  execute(dto: CreateRestaurantDto): Promise<Restaurant>;
 }
