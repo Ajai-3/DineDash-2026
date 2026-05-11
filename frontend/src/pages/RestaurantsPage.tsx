@@ -44,9 +44,10 @@ const RestaurantsPage: React.FC = () => {
       const success = await deleteRestaurant(selectedRestaurant.id);
       if (success) {
         setIsDeleteOpen(false);
-        // If we just deleted the last item on the current page, move back a page
         if (data.data.length === 1 && page > 1) {
-          setPage(page - 1);
+          const newPage = page - 1;
+          setPage(newPage);
+          fetchRestaurants(newPage);
         } else {
           fetchRestaurants(page);
         }
