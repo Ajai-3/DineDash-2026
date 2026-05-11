@@ -1,19 +1,25 @@
-import type React from "react";
-import { ThemeToggle } from "./components/ThemeToggle";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import RestaurantsPage from './pages/RestaurantsPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { APP_ROUTES } from './constants/routes';
 
-const App:React.FC = () => {
+function App() {
   return (
-    <div className=" p-10">
-      <h1 className="text-brand-dark font-bold">DineDash Title</h1>
-      <button className="bg-brand-main p-2 rounded">
-        Click Me
-      </button>
-      <ThemeToggle/>
-      
-      {/* You can even use the accent color we added */}
-      <span className="text-accent">Special Offer</span>
-    </div>
-  )
+    <Router>
+      <div className="dark min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+        <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+        <main>
+          <Routes>
+            <Route path={APP_ROUTES.HOME} element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
+            <Route path={APP_ROUTES.RESTAURANTS} element={<RestaurantsPage />} />
+            {/* Add more routes as needed */}
+            <Route path="*" element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
