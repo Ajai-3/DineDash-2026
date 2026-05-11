@@ -2,6 +2,11 @@ import 'reflect-metadata';
 import { TYPES } from './types';
 import { Container } from 'inversify';
 
+// Logger
+import { WinstonLogger } from '../logging/logger';
+import { ILogger } from '../../application/interface/logging/ILogger';
+
+
 // Repositories
 import { RestaurantRepositoryImp } from '../repositories/RestaurantRepositoryImp';
 import { IRestaurantRepository } from '../../core/repositories/IRestaurantRepository';
@@ -23,6 +28,9 @@ import { RestaurantController } from '../../presentation/controllers/RestaurantC
 
 
 const container = new Container()
+
+// Logger
+container.bind<ILogger>(TYPES.ILogger).to(WinstonLogger).inSingletonScope();
 
 // Repositories
 container.bind<IRestaurantRepository>(TYPES.IRestaurantRepository).to(RestaurantRepositoryImp).inSingletonScope();

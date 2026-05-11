@@ -1,11 +1,12 @@
 import { prisma } from './prisma';
+import logger from '../logging/logger';
 
 export const connectDB = async () => {
   try {
     await prisma.$connect();
-    console.log('Database connected successfully 🚀');
+    logger.info('Database connected successfully 🚀');
   } catch (error) {
-    console.error('Database connection failed:', error);
+    logger.error('Database connection failed:', error);
     process.exit(1);
   }
 };

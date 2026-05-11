@@ -1,13 +1,16 @@
 export const TYPES = {
+  // Logger
+  ILogger: Symbol('ILogger'),
+  
   // Repositories
-  IRestaurantRepository: Symbol('IRestaurantRepository'),
+    IRestaurantRepository: Symbol('IRestaurantRepository'),
 
   // Use-Case's
-  IEditRestaurantUseCase: Symbol('IEditRestaurantUseCase'),
+    IEditRestaurantUseCase: Symbol('IEditRestaurantUseCase'),
   IGetAllRestaurantUseCase: Symbol('IGetAllRestaurantUseCase'),
   ICreateRestaurantUseCase: Symbol('ICreateRestaurantUseCase'),
   IDeleteRestaurantUseCase: Symbol('IDeleteRestaurantUseCase'),
 
   // Controllers
-  IRestaurantController: Symbol('IRestaurantController')
+    IRestaurantController: Symbol('IRestaurantController')
 };

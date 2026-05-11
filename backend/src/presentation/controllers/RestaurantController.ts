@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import { MESSAGES } from '../../shared/constants/messages';
 import { TYPES } from '../../infrastructure/inversify/types';
 import { STATUS_CODES } from '../../shared/constants/statusCodes';
+import { ILogger } from '../../application/interface/logging/ILogger';
 import { IRestaurantController } from '../interface/IRestaurantController';
 import { IEditRestaurantUseCase } from '../../application/interface/usecase/IEditRestaurantUseCase';
 import { restaurantSchema, updateRestaurantSchema } from '../../shared/validations/restaurant.schema';
@@ -15,6 +16,7 @@ import { CreateRestaurantDto, UpdateRestaurantDto } from '../../application/inte
 @injectable()
 export class RestaurantController implements IRestaurantController {
   constructor(
+    @inject(TYPES.ILogger) private readonly logger: ILogger,
     @inject(TYPES.IEditRestaurantUseCase) private readonly _editUsecase: IEditRestaurantUseCase,
     @inject(TYPES.ICreateRestaurantUseCase) private readonly _createUsecase: ICreateRestaurantUseCase,
     @inject(TYPES.IDeleteRestaurantUseCase) private readonly _deleteUsecase: IDeleteRestaurantUseCase,
@@ -27,6 +29,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      this.logger.info(`Creating restaurant: ${req.body.name}`);
       const validatedData = await Validator.validate<CreateRestaurantDto>(restaurantSchema, req.body);
       const data = await this._createUsecase.execute(validatedData);
       return res.status(STATUS_CODES.CREATED).json({
@@ -45,11 +48,11 @@ export class RestaurantController implements IRestaurantController {
   ): Promise<Response | void> => {
     try {
       const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
-      // CRITICAL: Radix must be 10 for standard decimal numbers. Base 4 treats '4' as invalid (NaN).
       const limit = req.query.limit ? (parseInt(req.query.limit as string, 10) || 4) : 4;
       const skip = (page - 1) * limit;
       const take = limit;
 
+      this.logger.info(`Fetching restaurants - Page: ${page}, Limit: ${limit}`);
       const result = await this._getAllUsecase.execute(skip, take);
       
       return res.status(STATUS_CODES.OK).json({
@@ -71,6 +74,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      this.logger.info(`Editing restaurant: ${req.params.id}`);
       const payload = { ...req.body, id: req.params.id };
       const validatedData = await Validator.validate<UpdateRestaurantDto>(updateRestaurantSchema, payload);
       const data = await this._editUsecase.execute(validatedData);
@@ -90,6 +94,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      this.logger.info(`Deleting restaurant: ${req.params.id}`);
       const id = req.params.id as string;
       await this._deleteUsecase.execute(id);
       return res.status(STATUS_CODES.OK).json({
