@@ -16,12 +16,12 @@ import { CreateRestaurantDto, UpdateRestaurantDto } from '../../application/inte
 @injectable()
 export class RestaurantController implements IRestaurantController {
   constructor(
-    @inject(TYPES.ILogger) private readonly logger: ILogger,
+    @inject(TYPES.ILogger) private readonly _logger: ILogger,
     @inject(TYPES.IEditRestaurantUseCase) private readonly _editUsecase: IEditRestaurantUseCase,
     @inject(TYPES.ICreateRestaurantUseCase) private readonly _createUsecase: ICreateRestaurantUseCase,
     @inject(TYPES.IDeleteRestaurantUseCase) private readonly _deleteUsecase: IDeleteRestaurantUseCase,
     @inject(TYPES.IGetAllRestaurantUseCase) private readonly _getAllUsecase: IGetAllRestaurantUseCase,
-  ) {}
+  ) { }
 
   createRestaurant = async (
     req: Request,
@@ -29,7 +29,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
-      this.logger.info(`Creating restaurant: ${req.body.name}`);
+      this._logger.info(`Creating restaurant: ${req.body.name}`);
       const validatedData = await Validator.validate<CreateRestaurantDto>(restaurantSchema, req.body);
       const data = await this._createUsecase.execute(validatedData);
       return res.status(STATUS_CODES.CREATED).json({
@@ -52,9 +52,9 @@ export class RestaurantController implements IRestaurantController {
       const skip = (page - 1) * limit;
       const take = limit;
 
-      this.logger.info(`Fetching restaurants - Page: ${page}, Limit: ${limit}`);
+      this._logger.info(`Fetching restaurants - Page: ${page}, Limit: ${limit}`);
       const result = await this._getAllUsecase.execute(skip, take);
-      
+
       return res.status(STATUS_CODES.OK).json({
         message: MESSAGES.RESTAURANT.FETCHED,
         data: result.data,
@@ -74,7 +74,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
-      this.logger.info(`Editing restaurant: ${req.params.id}`);
+      this._logger.info(`Editing restaurant: ${req.params.id}`);
       const payload = { ...req.body, id: req.params.id };
       const validatedData = await Validator.validate<UpdateRestaurantDto>(updateRestaurantSchema, payload);
       const data = await this._editUsecase.execute(validatedData);
@@ -94,7 +94,7 @@ export class RestaurantController implements IRestaurantController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
-      this.logger.info(`Deleting restaurant: ${req.params.id}`);
+      this._logger.info(`Deleting restaurant: ${req.params.id}`);
       const id = req.params.id as string;
       await this._deleteUsecase.execute(id);
       return res.status(STATUS_CODES.OK).json({
