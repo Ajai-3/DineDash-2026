@@ -7,17 +7,12 @@ import { APP_ROUTES } from './constants/routes';
 function App() {
   return (
     <Router>
-      <div className="dark min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-        <ToastContainer position="top-right" autoClose={3000} theme="dark" />
-        <main>
-          <Routes>
-            <Route path={APP_ROUTES.HOME} element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
-            <Route path={APP_ROUTES.RESTAURANTS} element={<RestaurantsPage />} />
-            {/* Add more routes as needed */}
-            <Route path="*" element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
-          </Routes>
-        </main>
-      </div>
+      <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+      <Routes>
+        <Route path={APP_ROUTES.HOME} element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
+        <Route path={APP_ROUTES.RESTAURANTS} element={<RestaurantsPage />} />
+        <Route path="*" element={<Navigate to={APP_ROUTES.RESTAURANTS} replace />} />
+      </Routes>
     </Router>
   );
 }
