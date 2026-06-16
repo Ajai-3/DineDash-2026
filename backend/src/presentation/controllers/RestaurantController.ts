@@ -12,6 +12,7 @@ import { ICreateRestaurantUseCase } from '../../application/interface/usecase/IC
 import { IGetAllRestaurantUseCase } from '../../application/interface/usecase/IGetAllRestaurantUseCase';
 import { IDeleteRestaurantUseCase } from '../../application/interface/usecase/IDeleteRestaurantUseCase';
 import { CreateRestaurantDto, UpdateRestaurantDto } from '../../application/interface/dto/RestaurantDto';
+import { ApiResponse } from '../../shared/utils/ApiResponse';
 
 @injectable()
 export class RestaurantController implements IRestaurantController {
@@ -32,10 +33,7 @@ export class RestaurantController implements IRestaurantController {
       this._logger.info(`Creating restaurant: ${req.body.name}`);
       const validatedData = await Validator.validate<CreateRestaurantDto>(restaurantSchema, req.body);
       const data = await this._createUsecase.execute(validatedData);
-      return res.status(STATUS_CODES.CREATED).json({
-        message: MESSAGES.RESTAURANT.CREATED,
-        data: data,
-      });
+      return ApiResponse.success(res, STATUS_CODES.CREATED, MESSAGES.RESTAURANT.CREATED, data);
     } catch (error) {
       next(error);
     }
@@ -55,14 +53,16 @@ export class RestaurantController implements IRestaurantController {
       this._logger.info(`Fetching restaurants - Page: ${page}, Limit: ${limit}`);
       const result = await this._getAllUsecase.execute(skip, take);
 
-      return res.status(STATUS_CODES.OK).json({
-        message: MESSAGES.RESTAURANT.FETCHED,
-        data: result.data,
-        total: result.total,
+      return ApiResponse.paginated(
+        res,
+        STATUS_CODES.OK,
+        MESSAGES.RESTAURANT.FETCHED,
+        result.data,
+        result.total,
         page,
         limit,
-        totalPages: Math.ceil(result.total / limit)
-      });
+        Math.ceil(result.total / limit)
+      );
     } catch (error) {
       next(error);
     }
@@ -79,10 +79,7 @@ export class RestaurantController implements IRestaurantController {
       const validatedData = await Validator.validate<UpdateRestaurantDto>(updateRestaurantSchema, payload);
       const data = await this._editUsecase.execute(validatedData);
 
-      return res.status(STATUS_CODES.OK).json({
-        message: MESSAGES.RESTAURANT.UPDATED,
-        data: data,
-      });
+      return ApiResponse.success(res, STATUS_CODES.OK, MESSAGES.RESTAURANT.UPDATED, data);
     } catch (error) {
       next(error);
     }
@@ -97,10 +94,7 @@ export class RestaurantController implements IRestaurantController {
       this._logger.info(`Deleting restaurant: ${req.params.id}`);
       const id = req.params.id as string;
       await this._deleteUsecase.execute(id);
-      return res.status(STATUS_CODES.OK).json({
-        message: MESSAGES.RESTAURANT.DELETED,
-        data: null,
-      });
+      return ApiResponse.success(res, STATUS_CODES.OK, MESSAGES.RESTAURANT.DELETED, null);
     } catch (error) {
       next(error);
     }
