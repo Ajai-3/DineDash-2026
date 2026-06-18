@@ -100,15 +100,4 @@ docker-compose up --build
 
 ---
 
-## Assignment Compliance
-
-- **Speed and Efficiency**: Leveraged TanStack Query for optimized data fetching and caching.
-- **UI Design**: Implemented a professional UI using Material UI components and a custom theme.
-- **API Calls**: Robust CRUD implementation using Axios and clean async/await patterns.
-- **Model Structure**: Designed efficient database schemas using Prisma and PostgreSQL.
-- **Migrations**: Implemented Prisma Migrations for schema versioning and database management.
-- **Deployment**: Configured for Vercel (Frontend) and Dockerized (Backend).
-
----
-
 Designed and Developed by AJAI
