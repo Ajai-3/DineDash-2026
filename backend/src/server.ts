@@ -5,6 +5,7 @@ import { connectDB } from './infrastructure/database/db';
 import logger from './infrastructure/logging/logger';
 
 const port = env.port;
+
 const server = http.createServer(app);
 
 const startServer = async () => {

@@ -1,4 +1,6 @@
 import { Restaurant } from '../entities/Restaurant';
 import { IBaseRepository } from './IBaseRepository';
 
-export interface IRestaurantRepository extends IBaseRepository<Restaurant> {}
+export interface IRestaurantRepository extends IBaseRepository<Restaurant> {
+    findByContact(contact: number): Promise<Restaurant | null>;
+}
