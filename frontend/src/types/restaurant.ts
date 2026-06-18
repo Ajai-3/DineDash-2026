@@ -1,7 +1,7 @@
 export interface Restaurant {
   id: string;
   name: string;
-  contact: string;
+  contact: number;
   address: string;
   createdAt?: string;
   updatedAt?: string;
@@ -17,8 +17,8 @@ export interface PaginatedResponse<T> {
 
 export interface CreateRestaurantDTO {
   name: string;
-  contact: string;
+  contact: number;
   address: string;
 }
 
-export interface UpdateRestaurantDTO extends Partial<CreateRestaurantDTO> {}
+export type UpdateRestaurantDTO = Partial<CreateRestaurantDTO>;

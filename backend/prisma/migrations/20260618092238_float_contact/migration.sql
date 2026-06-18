@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Restaurant" ALTER COLUMN "contact" SET DATA TYPE DOUBLE PRECISION;

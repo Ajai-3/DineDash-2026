@@ -6,6 +6,7 @@ import { IRestaurantRepository } from "../../core/repositories/IRestaurantReposi
 import { IEditRestaurantUseCase } from "../interface/usecase/IEditRestaurantUseCase";
 import { NotFoundError } from "../../core/errors/NotFoundError";
 import { MESSAGES } from "../../shared/constants/messages";
+import { ConflictError } from "../../core/errors/ConflictError";
 
 @injectable()
 export class EditRestaurantUseCase implements IEditRestaurantUseCase {
@@ -17,6 +18,13 @@ export class EditRestaurantUseCase implements IEditRestaurantUseCase {
 
     if (!existingRestaurant) {
         throw new NotFoundError(MESSAGES.RESTAURANT.NOT_FOUND);
+    }
+
+    if (dto.contact && dto.contact !== existingRestaurant.contact) {
+        const contactExists = await this._restaurantRepo.findByContact(dto.contact);
+        if (contactExists && contactExists.id !== dto.id) {
+            throw new ConflictError('A restaurant with this contact number already exists.');
+        }
     }
 
     const updatedRestaurant = await this._restaurantRepo.update(dto) as unknown as Restaurant;

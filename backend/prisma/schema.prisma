@@ -6,12 +6,13 @@ datasource db {
   provider = "postgresql"
 }
 
+// follow normalisation
 
 model Restaurant {
   id          String   @id @default(cuid())
   name        String
-  contact     String  
-  address     String   
+  contact     Int      @unique // correct to number
+  address     String   // normalisation
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 }

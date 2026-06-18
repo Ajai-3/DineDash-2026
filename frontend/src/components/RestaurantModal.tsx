@@ -41,7 +41,7 @@ export const RestaurantModal: React.FC<RestaurantModalProps> = ({
     resolver: zodResolver(restaurantSchema),
     defaultValues: {
       name: '',
-      contact: '',
+      contact: undefined,
       address: '',
     },
   });
@@ -54,7 +54,7 @@ export const RestaurantModal: React.FC<RestaurantModalProps> = ({
         address: restaurant.address,
       });
     } else if (isOpen) {
-      reset({ name: '', contact: '', address: '' });
+      reset({ name: '', contact: undefined, address: '' });
     }
   }, [restaurant, isOpen, reset]);
 
@@ -101,9 +101,10 @@ export const RestaurantModal: React.FC<RestaurantModalProps> = ({
             </Typography>
             <TextField
               fullWidth
+              type="number"
               size="small"
               placeholder="e.g. 9876543210"
-              {...register('contact')}
+              {...register('contact', { valueAsNumber: true })}
               error={!!errors.contact}
               helperText={errors.contact?.message}
             />
